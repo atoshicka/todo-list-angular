@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  max-width: 700px;
+  margin: clamp(0px, 5vw, 56px) auto;
+  padding: clamp(16px, 5vw, 48px);
+  background: var(--light);
+  border: 1px solid var(--line);
+  border-radius: clamp(20px, 4vw, 32px);
+}
+
+@media (max-width: 600px) {
+  :host {
+    min-height: 100vh;
+    border: none;
+    border-radius: 0;
+  }
+}

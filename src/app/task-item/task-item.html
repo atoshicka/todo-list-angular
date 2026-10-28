@@ -1,0 +1,22 @@
+<input type="checkbox" [checked]="task().done" (change)="onToggle()" [attr.aria-label]="'Выполнена: ' + task().title" />
+
+@if (editing()) {
+  <input
+    class="edit"
+    [value]="task().title"
+    (keyup.enter)="saveTitle($any($event.target).value)"
+    (keyup.escape)="editing.set(false)"
+    (blur)="saveTitle($any($event.target).value)"
+    aria-label="Новое название задачи"
+    appAutofocus
+  />
+} @else {
+  <a [routerLink]="['/task', task().id]" [class.done]="task().done">{{ task().title }}</a>
+  @if (!task().done) {
+    <button class="icon" (click)="editing.set(true)" [attr.aria-label]="'Редактировать: ' + task().title">✎</button>
+  }
+}
+
+<small [class.high]="task().priority === 'high'">{{ task().priority | priorityLabel }}</small>
+
+<button (click)="onRemove()" [attr.aria-label]="'Удалить: ' + task().title">×</button>

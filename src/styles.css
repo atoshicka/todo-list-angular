@@ -1,1 +1,188 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --light: #f4f4f2;
+  --dark: #2b2b2b;
+  --accent: #3fa66b;
+  --line: color-mix(in srgb, var(--dark) 15%, transparent);
+  --soft: color-mix(in srgb, var(--dark) 6%, transparent);
+  --radius: 20px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root[data-theme='dark'] {
+  --light: #1f1f1e;
+  --dark: #ececea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--light);
+  color: var(--dark);
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s var(--ease);
+}
+
+app-card {
+  transition:
+    background-color 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+input:not([type]),
+select {
+  font: inherit;
+  color: var(--dark);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 20px;
+  height: 56px;
+  outline: none;
+  transition:
+    border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease),
+    color 0.35s var(--ease);
+}
+
+select {
+  appearance: none;
+  padding: 0 48px 0 20px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%232b2b2b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5l5 5 5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+}
+
+:root[data-theme='dark'] select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23ececea' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5l5 5 5-5'/></svg>");
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+button {
+  font: inherit;
+  color: var(--dark);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 20px;
+  height: 44px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    opacity 0.2s var(--ease),
+    transform 0.15s var(--ease),
+    filter 0.2s var(--ease);
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes item-out {
+  from {
+    opacity: 1;
+    transform: none;
+    max-height: 80px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+    max-height: 0;
+    padding-block: 0;
+    margin-bottom: -10px;
+    border-width: 0;
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.3s var(--ease) both;
+}
+
+.item-enter {
+  animation: item-in 0.3s var(--ease) both;
+}
+
+.item-leave {
+  overflow: hidden;
+  animation: item-out 0.3s var(--ease) forwards;
+}
+
+app-task-list,
+app-task-detail {
+  animation: fade-up 0.35s var(--ease) both;
+}
+
+@media (max-width: 600px) {
+  input:not([type]),
+  select {
+    height: 48px;
+    padding-left: 16px;
+  }
+
+  select {
+    padding-right: 40px;
+    background-position: right 14px center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

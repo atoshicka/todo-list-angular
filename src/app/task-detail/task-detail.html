@@ -1,0 +1,24 @@
+<section class="detail">
+  @if (tasksService.loading()) {
+    <p class="muted">Загрузка...</p>
+  } @else {
+    @if (task(); as t) {
+      <h2 [class.done]="t.done">{{ t.title }}</h2>
+
+      <div class="badges">
+        <span class="badge" [class.ok]="t.done">
+          {{ t.done ? 'Выполнена' : 'Не выполнена' }}
+        </span>
+        <span class="badge" [class.high]="t.priority === 'high'">
+          {{ priorityLabels[t.priority] }}
+        </span>
+      </div>
+    } @else {
+      <p class="muted">Задача не найдена</p>
+    }
+  }
+
+  <p class="muted timer">На странице: {{ seconds() }} с</p>
+</section>
+
+<a class="back" routerLink="/">← К списку</a>

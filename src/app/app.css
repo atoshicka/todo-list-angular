@@ -1,0 +1,17 @@
+h1 {
+  margin: 0;
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 700;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: clamp(16px, 4vw, 32px);
+}
+
+.theme {
+  width: 44px;
+  padding: 0;
+}

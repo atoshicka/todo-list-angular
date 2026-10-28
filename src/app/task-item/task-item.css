@@ -1,0 +1,81 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease);
+}
+
+input[type='checkbox']:active {
+  transform: scale(0.8);
+}
+
+a {
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: opacity 0.3s var(--ease);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.edit {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 12px;
+  animation: fade-up 0.2s var(--ease) both;
+}
+
+small {
+  opacity: 0.55;
+  white-space: nowrap;
+  transition:
+    color 0.3s var(--ease),
+    opacity 0.3s var(--ease);
+}
+
+.high {
+  color: var(--accent);
+  opacity: 1;
+  font-weight: 700;
+}
+
+button {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.icon {
+  border: none;
+  opacity: 0.55;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  :host {
+    gap: 10px;
+  }
+}

@@ -1,0 +1,90 @@
+<section class="controls">
+  <form class="add" [formGroup]="form" (ngSubmit)="submit()">
+    <input class="field" formControlName="title" appAutofocus placeholder="Новая задача..." aria-label="Название задачи" />
+
+    <select formControlName="priority" aria-label="Приоритет новой задачи">
+      <option value="low">Низкий</option>
+      <option value="normal">Средний</option>
+      <option value="high">Высокий</option>
+    </select>
+
+    <button class="primary" type="submit" [disabled]="form.invalid">+ Добавить</button>
+  </form>
+
+  @if (form.controls.title.touched && form.controls.title.hasError('minlength')) {
+    <p class="error" role="alert" animate.enter="fade-up">Минимум 3 символа</p>
+  }
+
+  <div class="search">
+    <input class="field" [formControl]="searchControl" placeholder="Поиск..." aria-label="Поиск" />
+    <select (change)="tasksService.priorityFilter.set($any($event.target).value)" aria-label="Фильтр по приоритету">
+      <option value="all">Все приоритеты</option>
+      <option value="low">Низкий</option>
+      <option value="normal">Средний</option>
+      <option value="high">Высокий</option>
+    </select>
+  </div>
+
+  <div class="segment" role="group" aria-label="Фильтр по статусу">
+    <button
+      (click)="tasksService.filter.set('all')"
+      [class.active]="tasksService.filter() === 'all'"
+      [attr.aria-pressed]="tasksService.filter() === 'all'"
+    >Все</button>
+    <button
+      (click)="tasksService.filter.set('active')"
+      [class.active]="tasksService.filter() === 'active'"
+      [attr.aria-pressed]="tasksService.filter() === 'active'"
+    >Активные</button>
+    <button
+      (click)="tasksService.filter.set('done')"
+      [class.active]="tasksService.filter() === 'done'"
+      [attr.aria-pressed]="tasksService.filter() === 'done'"
+    >Выполненные</button>
+  </div>
+</section>
+
+<section class="tasks">
+  <div class="summary">
+    <p class="muted remaining">Осталось: {{ tasksService.remaining() }}</p>
+    @if (tasksService.doneCount() > 0) {
+      <button class="clear" (click)="tasksService.clearDone()" animate.enter="fade-up">Очистить выполненные</button>
+    }
+  </div>
+
+  @if (tasksService.loading()) {
+    <p class="muted center" animate.enter="fade-up">Загрузка...</p>
+  }
+
+  @if (tasksService.loadError()) {
+    <p class="error center" role="alert" animate.enter="fade-up">Не удалось загрузить</p>
+    <button class="retry" (click)="tasksService.load()">Повторить</button>
+  }
+
+  @if (tasksService.actionError()) {
+    <p class="error center" role="alert" animate.enter="fade-up">Не удалось выполнить действие</p>
+  }
+
+  <ul>
+    @for (task of tasksService.visibleTasks(); track task.id) {
+      <li animate.enter="item-enter" animate.leave="item-leave">
+        <app-task-item
+          [task]="task"
+          (toggled)="tasksService.toggle($event)"
+          (removed)="tasksService.remove($event)"
+          (renamed)="tasksService.rename($event.id, $event.title)"
+        />
+      </li>
+    } @empty {
+      @if (!tasksService.loading() && !tasksService.loadError()) {
+        <li class="empty muted" animate.enter="fade-up">Ничего нет</li>
+      }
+    }
+  </ul>
+
+  @defer (on viewport) {
+    <app-stats animate.enter="fade-up" />
+  } @placeholder {
+    <p class="muted center">Статистика...</p>
+  }
+</section>
