@@ -8,6 +8,8 @@
 
 ## Запуск:
 
+https://todo-list-angular-opal.vercel.app/
+
 npm start
 или
 ng serve
